@@ -1,4 +1,6 @@
-﻿@{
+﻿@using SFSocialNetwork.Models;
+@model SFSocialNetwork.Models.ErrorViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -9,9 +11,8 @@
 
     <div class="main">
 
-        
-            
-        <partial name="Register" model="@Model.RegisterViewModel"/>
+   
+        <partial name="Register" model="@Model"/>
         
         Блок авторизации
     </div>
