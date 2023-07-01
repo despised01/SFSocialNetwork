@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,8 +28,15 @@ namespace SFSocialNetwork
             string connection = Configuration.GetConnectionString("DefaultConnection");
 
             services
-                .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
-
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection))
+                .AddIdentity<User, IdentityRole>(opts => {
+                     opts.Password.RequiredLength = 5;
+                     opts.Password.RequireNonAlphanumeric = false;
+                     opts.Password.RequireLowercase = false;
+                     opts.Password.RequireUppercase = false;
+                     opts.Password.RequireDigit = false;
+                 })
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +57,7 @@ namespace SFSocialNetwork
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
