@@ -29,14 +29,18 @@ namespace SFSocialNetwork
 
             services
                 .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection))
-                .AddIdentity<User, IdentityRole>(opts => {
-                     opts.Password.RequiredLength = 5;
-                     opts.Password.RequireNonAlphanumeric = false;
-                     opts.Password.RequireLowercase = false;
-                     opts.Password.RequireUppercase = false;
-                     opts.Password.RequireDigit = false;
-                 })
+                .AddIdentity<User, IdentityRole>(opts =>
+                {
+                    opts.Password.RequiredLength = 5;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                })
                     .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthorization();
+            services.AddControllers();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
